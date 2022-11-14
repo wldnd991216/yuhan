@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <style>
+       #app{
+        width: 582px; height: 582px; background-color: brown;
+        display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-template-rows: 1fr 1fr 1fr 1fr;
+        gap: 10px; padding: 10px;
+       }
+       .bg{background-color: burlywood; text-align: center; padding: 50px; font-weight: bold;
+        font-size: 25px;}
+    </style>
+
+
+</head>
+<body>
+    <script src = "http://unpkg.com/vue@3"></script> 
+   <div id="app">
+    <div class="bg" v-for="a in bg_count">{{a}}</div>
+
+   </div>
+
+   <script>
+    const {createApp} = Vue;
+    createApp({
+        data(){
+            return{
+                bg_count : 16,
+            }
+        },
+        mounted(){
+        console.log("마운트");
+            }
+
+    }).mount("#app");
+
+   </script>
+
+
+</body>
+</html>

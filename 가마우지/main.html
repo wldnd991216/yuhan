@@ -1,0 +1,25 @@
+<html lang="en">
+<head></head>
+    <title>Document</title>
+</head>
+<body>
+    <script src = "http://unpkg.com/vue@3"></script> 
+    <div id = "app">
+        <button @click="hit++;">때리기</button>
+        <p>{{boy}}가{{girl}}<b v-html="">를</b>{{hit}}번 때림</p>
+    </div>
+    <script>
+        const {createApp} = Vue;
+        createApp({
+            data(){
+                return{
+            boy : "A",
+            girl : "B",
+            hit : 0,
+            style : <span style="color:red;"> </span>
+            }
+        },
+     }).mount("#app");
+    </script>
+</body>
+</html>
