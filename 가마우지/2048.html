@@ -3,30 +3,42 @@
 <head>
     <title>Document</title>
     <style>
-       #app{
-        width: 582px; height: 582px; background-color: brown;
+       #app{ position: relative;
+        width: 600px; height: 600px; background-color: rgba(255, 210, 210, 0.829);
         display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-template-rows: 1fr 1fr 1fr 1fr;
-        gap: 10px; padding: 10px;
+        gap: 10px; padding: 10px; border-radius: 20px;
        }
-       .bg{background-color: burlywood; text-align: center; padding: 50px; font-weight: bold;
-        font-size: 25px;}
+       .bg{background-color: rgb(175, 146, 255); text-align: center; padding: 35px; font-weight: bold;
+        font-size: 50px; border-radius: 20px;}
+
+       .ch{background-color: rgb(228, 131, 131); position: absolute; width:80px ; height: 80px;   top:20px; left: 20px; 
+        text-align: center; padding: 20px; font-weight: bold; 
+        font-size: 50px; border-radius: 20px;}
+       
     </style>
 
 
 </head>
 <body>
     <script src = "http://unpkg.com/vue@3"></script> 
-   <div id="app">
-    <div class="bg" v-for="a in bg_count">{{a}}</div>
 
+   <div id="app">
+    
+
+    <div class="bg" v-for="a in bg_count">{{a}}</div>
+    <div class="ch">2</div>
+          
    </div>
 
    <script>
     const {createApp} = Vue;
+
     createApp({
         data(){
             return{
-                bg_count : 16,
+
+                bg_count : 16
+                
             }
         },
         mounted(){
@@ -34,6 +46,15 @@
             }
 
     }).mount("#app");
+
+    function keylog(e) {
+        console.log(e);
+    }
+
+    //window.onkeydown = keylog;
+    window.onkeydown = (e)=>{console.log(e);}; //마우스 방향키 누르고 위아래오른쪽왼쪽 이동만 할 수 있게
+
+
 
    </script>
 
