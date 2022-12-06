@@ -7,38 +7,72 @@
     <title>asdasd</title>
 
     <style>
-        #table {border-collapse: collapse; user-select: none; background-color: rgba(255, 210, 210, 0.829);}
+        #table {border-collapse: collapse; user-select: none; background-color: rgba(163, 162, 162, 0.829);}
 
         #table td{
-            border:10px solid rgb(175, 146, 255); width:116px; height:128px;
-            font-size:50px; font-weight:bold; text-align: center; 
+            border:10px solid rgb(70, 70, 70);  width:116px; height:128px;
+            font-size:50px; font-weight:bold; text-align: center;  
         }
 
+        .color-2{background-color: #eee4da; color:#776e65;}
+        .color-4{background-color: #eee1c9; color:#776e65;}
+        .color-8{background-color: #f3b27a; color:#776e65;}
+        .color-16{background-color: #f69664; color:#776e65;}
+        .color-32{background-color: #f77c5f; color:#776e65;}
+        .color-64{background-color: #f75f3b; color:#776e65;}
+        .color-128{background-color: #edd073; color:#776e65;}
+        .color-256{background-color: #edcc62; color:#776e65;}
+        .color-512{background-color: #edc950; color:#776e65;}
+        .color-1024{background-color: #edc53f; color:#776e65;}
+        .color-2048{background-color: #edc22e; color:#776e65;}
+
         #score{user-select:none;}
+        #move{user-select:none;}
         
     </style>
 
 </head>
 
 <body>
-    <table id="table"></table>
-    <br>
-    score: 
+    점수:
     <div id="score">0</div>
+    <br>
+    움직인 횟수:
+    <div id="move">0</div>
+    <br>
+    <div id="state">게임을 시작할려면 엔터를 누르세요!</div>
+    <br>
+
+    <table id="table"></table>
 
 
     <script>
         const $table = document.getElementById('table');
         const $score = document.getElementById('score');
+        const $moved = document.getElementById('move');
         const $back = document.getElementById('back');
+        const $ee = document.getElementById('state');
+
+        const rand1 = Math.floor(Math.random() * 3);
+        
+        let gamestate = 0;
 
         let data = [];
         let histroy = [];
+        let startcase = rand1;
+        let movingnumber = 0;
 
+        
 
+        if(gamestate == 0) {
+            window.addEventListener('keyup',(event) => {
+         if(event.key === 'Enter'){
+            if(gamestate < 1){
 
-        function startGame() {
-            const $fragment = document.createDocumentFragment();
+                $ee.textContent = "게임 진행중";
+
+                const $fragment = document.createDocumentFragment();
+            
             [1,2,3,4].forEach(function () {
                 const rowData = [];
                 data.push(rowData);
@@ -47,18 +81,58 @@
                     rowData.push(0);
                     const $td = document.createElement('td');
                     $tr.appendChild($td);
+                    
                 });
                 $fragment.appendChild($tr);
 
             });
             $table.appendChild($fragment);
-            put2ToRandomCell();
+
+                gamestate += 1;
+                console.log(gamestate);
+                startGame();   
+               }
+            }
+          });
+        } 
+   
+        function startGame() { //화면 그리기
+ 
+
+            switch(startcase) { //2나 4나 2,4나
+                case 0:
+                    put2ToRandomCell();
+                    break;
+                case 1:
+                    put4ToRandomCell();
+                    break;
+                case 2:
+                    put2ToRandomCell();
+                    put4ToRandomCell();
+                    break;
+                default:
+                    break;
+            }          
             draw();
+            
         }
 
 
+        function put2ToRandomCell() { //2를 랜덤한 위치에 넣는 거
+            const emptyCells = [];
+            data.forEach(function  (rowData, i){
+                rowData.forEach(function (cellData, j){
+                    if(!cellData) {
+                        emptyCells.push([i,j]);
+                    }
+                });
+            });
 
-        function put2ToRandomCell() {
+            const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+            data[randomCell[0]][randomCell[1]] = 2;
+        }
+
+        function put4ToRandomCell() { //4를 랜덤한 위치에 넣는거 처음 시작할때만 씀
             const emptyCells = [];
             data.forEach(function  (rowData, i){
                 rowData.forEach(function (cellData, j){
@@ -68,9 +142,8 @@
                 });
             });
             const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-            data[randomCell[0]][randomCell[1]] = 2;
+            data[randomCell[0]][randomCell[1]] = 4;
         }
-
 
 
         function draw() {
@@ -89,12 +162,11 @@
         }  
 
 
+        
 
-        startGame();
-      
+        
+            function moveCells(direction){
 
-
-        function moveCells(direction){
             switch (direction){
 
                 case 'left':{  
@@ -213,40 +285,46 @@
             }
 
 
-
-
-            if(data.flat().includes(2048)){
+            if(data.flat().includes(2048)) {
                 draw();
                 setTimeout(() => {
-                    
+                $ee.textContent = "게임 승리!";
                 },0);
-            }else if (!data.flat().includes(0)) {
-                
-            }else {
+            } else if(gamestate == 2) {
+                setTimeout(() => {
+                $ee.textContent = "게임 오버";
+                },0);
+                  
+            } else {
                 put2ToRandomCell();
-                draw();    
+                draw();  
+
             }
             
         }
 
-
             window.addEventListener('keyup',(event) => {
                 if(event.key === 'ArrowUp'){
                     moveCells('up');
+                    movingnumber += 1;
+                    $moved.textContent = movingnumber;
                 }else if(event.key === 'ArrowDown'){
                     moveCells('down');
+                    movingnumber += 1;
+                    $moved.textContent = movingnumber;
                 }else if(event.key === 'ArrowLeft'){
                     moveCells('left');
+                    movingnumber += 1;
+                    $moved.textContent = movingnumber;
                 }else if(event.key === 'ArrowRight'){
                     moveCells('right');
+                    movingnumber += 1;
+                    $moved.textContent = movingnumber;
                 }
             });
-        
 
         let startCoord;
-       
-
-        
+   
     </script>
 </body>
 </html>
