@@ -88,7 +88,7 @@
             });
             $table.appendChild($fragment);
 
-                gamestate += 1;
+                gamestate = 1;
                 console.log(gamestate);
                 startGame();   
                }
@@ -290,8 +290,9 @@
                 setTimeout(() => {
                 $ee.textContent = "게임 승리!";
                 },0);
-            } else if(gamestate == 2) {
+            } else if(!data.flat().includes(0)) {
                 setTimeout(() => {
+                gamestate = 2
                 $ee.textContent = "게임 오버";
                 },0);
                   
@@ -303,7 +304,9 @@
             
         }
 
+        
             window.addEventListener('keyup',(event) => {
+                if(gamestate == 1) {
                 if(event.key === 'ArrowUp'){
                     moveCells('up');
                     movingnumber += 1;
@@ -311,7 +314,7 @@
                 }else if(event.key === 'ArrowDown'){
                     moveCells('down');
                     movingnumber += 1;
-                    $moved.textContent = movingnumber;
+                    $moved.textContent = movingnumber;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              `                                       ```````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
                 }else if(event.key === 'ArrowLeft'){
                     moveCells('left');
                     movingnumber += 1;
@@ -321,7 +324,15 @@
                     movingnumber += 1;
                     $moved.textContent = movingnumber;
                 }
-            });
+              }
+            }
+            );
+        
+
+    
+
+            
+        
 
         let startCoord;
    
